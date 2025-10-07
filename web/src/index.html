@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edge Detector Web Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .viewer-container {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .frame-display {
+            flex: 1;
+            position: relative;
+        }
+        .frame-image {
+            width: 100%;
+            max-width: 640px;
+            height: auto;
+            border: 2px solid #333;
+            border-radius: 8px;
+        }
+        .stats-panel {
+            width: 300px;
+            background-color: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+        .stat-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 4px;
+        }
+        .stat-label {
+            font-weight: bold;
+            color: #00aaff;
+            margin-bottom: 5px;
+        }
+        .stat-value {
+            font-size: 1.2em;
+            color: #ffffff;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+        .controls {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .btn {
+            background-color: #00aaff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+        .btn:hover {
+            background-color: #0088cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Edge Detection Viewer</h1>
+            <p>Real-time frame processing results from Android app</p>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" id="refreshBtn">🔄 Refresh Frame</button>
+            <button class="btn" id="toggleModeBtn">🔀 Toggle Mode</button>
+        </div>
+        
+        <div class="viewer-container">
+            <div class="frame-display">
+                <img id="frameImage" class="frame-image" src="" alt="Processed Frame" style="display: none;">
+                <div id="loadingMessage" class="loading">
+                    📷 Loading sample processed frame...
+                </div>
+            </div>
+            
+            <div class="stats-panel">
+                <h3>📊 Frame Statistics</h3>
+                
+                <div class="stat-item">
+                    <div class="stat-label">FPS</div>
+                    <div class="stat-value" id="fpsValue">15.2</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-label">Resolution</div>
+                    <div class="stat-value" id="resolutionValue">640 x 480</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-label">Processing Mode</div>
+                    <div class="stat-value" id="modeValue">Edge Detection</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-label">Frame Count</div>
+                    <div class="stat-value" id="frameCountValue">1,247</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-label">Processing Time</div>
+                    <div class="stat-value" id="processingTimeValue">8.3 ms</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-label">Last Updated</div>
+                    <div class="stat-value" id="lastUpdatedValue">--</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="./app.js"></script>
+</body>
+</html>
