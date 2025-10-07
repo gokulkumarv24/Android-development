@@ -4,13 +4,17 @@
   "description": "TypeScript web viewer for edge detection frames",
   "main": "dist/app.js",
   "scripts": {
-    "build": "tsc",
+    "clean": "rimraf \"dist\"",
+    "copy-assets": "copyfiles -u 1 \"src/*.html\" \"src/*.ico\" dist/",
+    "build": "npm run clean && tsc && npm run copy-assets",
     "watch": "tsc --watch",
-    "serve": "http-server dist"
+    "serve": "http-server dist --cors -c-1"
   },
   "devDependencies": {
-    "typescript": "^5.0.0",
     "@types/node": "^20.0.0",
-    "http-server": "^14.1.1"
+    "copyfiles": "^2.4.1",
+    "http-server": "^14.1.1",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.0.0"
   }
 }
