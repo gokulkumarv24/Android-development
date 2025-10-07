@@ -30,6 +30,8 @@ public class CameraActivity extends Activity {
     private Size previewSize;
     private ImageReader imageReader;
     private static final int REQUEST_CAMERA_PERMISSION = 200;
+    private EdgeDetectorWebSocket webSocketServer;
+    private static final int WEBSOCKET_PORT = 8765;
 
     // Load native library
     static {
@@ -42,6 +44,15 @@ public class CameraActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // Start WebSocket server
+        webSocketServer = new EdgeDetectorWebSocket();
+        try {
+            webSocketServer.start();
+            android.util.Log.i("EdgeDetector", "WebSocket server started on port " + WEBSOCKET_PORT);
+        } catch (Exception e) {
+            android.util.Log.e("EdgeDetector", "Failed to start WebSocket server: " + e.getMessage());
+        }
         
         // Set up OpenGL surface view
         glSurfaceView = new GLSurfaceView(this);
@@ -192,10 +203,17 @@ public class CameraActivity extends Activity {
         // Process frame using JNI
         byte[] processedFrame = processFrame(nv21, image.getWidth(), image.getHeight());
         
-        // Send processed frame to OpenGL renderer
-        if (processedFrame != null && glRenderer != null) {
-            glRenderer.updateFrame(processedFrame);
-            glSurfaceView.requestRender();
+        // Send processed frame to OpenGL renderer and WebSocket
+        if (processedFrame != null) {
+            if (glRenderer != null) {
+                glRenderer.updateFrame(processedFrame);
+                glSurfaceView.requestRender();
+            }
+            // Send frame to connected web viewers
+            if (webSocketServer != null) {
+                webSocketServer.broadcastFrame(processedFrame);
+                android.util.Log.d("EdgeDetector", "Frame sent to web viewers");
+            }
         }
     }
     
