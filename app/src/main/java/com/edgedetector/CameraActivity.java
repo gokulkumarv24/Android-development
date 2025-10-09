@@ -13,7 +13,9 @@ import android.os.Bundle;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -30,8 +32,20 @@ public class CameraActivity extends Activity {
     private Size previewSize;
     private ImageReader imageReader;
     private static final int REQUEST_CAMERA_PERMISSION = 200;
-    private EdgeDetectorWebSocket webSocketServer;
+    private EdgeDetectorWebSocketServer webSocketServer;
     private static final int WEBSOCKET_PORT = 8765;
+    
+    // UI Elements
+    private TextView fpsValue;
+    private TextView frameCount;
+    private TextView connectionCount;
+    private TextView serverIp;
+    private TextView processingStatus;
+    private View recordingIndicator;
+    
+    // Stats tracking
+    private int totalFrames = 0;
+    private long startTime = System.currentTimeMillis();
 
     // Load native library
     static {
@@ -44,32 +58,92 @@ public class CameraActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_camera);
+        
+        // Initialize UI elements
+        textureView = findViewById(R.id.texture_view);
+        glSurfaceView = findViewById(R.id.gl_surface_view);
+        fpsValue = findViewById(R.id.fps_value);
+        frameCount = findViewById(R.id.frame_count);
+        connectionCount = findViewById(R.id.connection_count);
+        serverIp = findViewById(R.id.server_ip);
+        processingStatus = findViewById(R.id.processing_status);
+        recordingIndicator = findViewById(R.id.recording_indicator);
         
         // Start WebSocket server
-        webSocketServer = new EdgeDetectorWebSocket();
+        webSocketServer = new EdgeDetectorWebSocketServer();
         try {
             webSocketServer.start();
             android.util.Log.i("EdgeDetector", "WebSocket server started on port " + WEBSOCKET_PORT);
+            updateServerStatus(true);
         } catch (Exception e) {
             android.util.Log.e("EdgeDetector", "Failed to start WebSocket server: " + e.getMessage());
+            updateServerStatus(false);
         }
         
         // Set up OpenGL surface view
-        glSurfaceView = new GLSurfaceView(this);
         glSurfaceView.setEGLContextClientVersion(2);
         glRenderer = new GLRenderer();
         glSurfaceView.setRenderer(glRenderer);
         glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
         
         // Set up camera texture view (for preview)
-        textureView = new TextureView(this);
         textureView.setSurfaceTextureListener(surfaceTextureListener);
         
-        // Layout setup
-        FrameLayout layout = new FrameLayout(this);
-        layout.addView(glSurfaceView);
-        layout.addView(textureView);
-        setContentView(layout);
+        // Initialize stats
+        updateStats();
+    }
+    
+    private void updateServerStatus(boolean isOnline) {
+        runOnUiThread(() -> {
+            if (isOnline) {
+                serverIp.setText(getLocalIpAddress() + ":8765");
+                processingStatus.setText("Processing: Active");
+                // Make recording indicator visible and animate
+                recordingIndicator.setVisibility(View.VISIBLE);
+            } else {
+                serverIp.setText("Server Offline");
+                processingStatus.setText("Processing: Inactive");
+                recordingIndicator.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+    
+    private void updateStats() {
+        runOnUiThread(() -> {
+            // Calculate FPS
+            long currentTime = System.currentTimeMillis();
+            long elapsed = currentTime - startTime;
+            if (elapsed > 0) {
+                float fps = (totalFrames * 1000.0f) / elapsed;
+                fpsValue.setText(String.format("%.1f", fps));
+            }
+            
+            // Update frame count
+            frameCount.setText(String.format("%,d", totalFrames));
+            
+            // Update connection count (simulate for now)
+            connectionCount.setText("1");
+        });
+    }
+    
+    private String getLocalIpAddress() {
+        try {
+            java.util.Enumeration<java.net.NetworkInterface> interfaces = java.net.NetworkInterface.getNetworkInterfaces();
+            while (interfaces.hasMoreElements()) {
+                java.net.NetworkInterface networkInterface = interfaces.nextElement();
+                java.util.Enumeration<java.net.InetAddress> addresses = networkInterface.getInetAddresses();
+                while (addresses.hasMoreElements()) {
+                    java.net.InetAddress address = addresses.nextElement();
+                    if (!address.isLoopbackAddress() && address instanceof java.net.Inet4Address) {
+                        return address.getHostAddress();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            android.util.Log.e("EdgeDetector", "Error getting IP address", e);
+        }
+        return "unknown";
     }
 
     private final TextureView.SurfaceTextureListener surfaceTextureListener = new TextureView.SurfaceTextureListener() {
@@ -203,6 +277,9 @@ public class CameraActivity extends Activity {
         // Process frame using JNI
         byte[] processedFrame = processFrame(nv21, image.getWidth(), image.getHeight());
         
+        // Update frame counter
+        totalFrames++;
+        
         // Send processed frame to OpenGL renderer and WebSocket
         if (processedFrame != null) {
             if (glRenderer != null) {
@@ -214,6 +291,11 @@ public class CameraActivity extends Activity {
                 webSocketServer.broadcastFrame(processedFrame);
                 android.util.Log.d("EdgeDetector", "Frame sent to web viewers");
             }
+        }
+        
+        // Update UI stats every 30 frames to avoid too frequent updates
+        if (totalFrames % 30 == 0) {
+            updateStats();
         }
     }
     

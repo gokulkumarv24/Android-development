@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download EdgeDetector App - QR Code</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            color: white;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+            text-align: center;
+        }
+        
+        .header {
+            margin-bottom: 3rem;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #e0e7ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .download-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .qr-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            color: #333;
+        }
+        
+        .qr-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .qr-code {
+            margin: 1.5rem 0;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .qr-code canvas {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .qr-instructions {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .download-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        
+        .download-btn {
+            background: linear-gradient(45deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            text-decoration: none;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+        
+        .download-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .features {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .features h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #e0e7ff;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .feature-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .feature-icon {
+            color: #6366f1;
+            font-size: 1.2rem;
+        }
+        
+        .instructions {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: left;
+        }
+        
+        .instructions h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #e0e7ff;
+        }
+        
+        .instructions ol {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+        
+        .instructions li {
+            counter-increment: step-counter;
+            margin-bottom: 1rem;
+            padding-left: 3rem;
+            position: relative;
+            line-height: 1.6;
+        }
+        
+        .instructions li:before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #6366f1;
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .url-display {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+            font-size: 0.9rem;
+            color: #e0e7ff;
+        }
+        
+        @media (max-width: 768px) {
+            .download-section {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .glass-panel {
+                padding: 2rem;
+            }
+            
+            .back-btn {
+                position: static;
+                margin-bottom: 2rem;
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+        Back to Viewer
+    </a>
+    
+    <div class="container">
+        <div class="glass-panel">
+            <div class="header">
+                <h1><i class="fas fa-download"></i> Download EdgeDetector App</h1>
+                <p>Scan QR Code or Download Directly</p>
+            </div>
+            
+            <div class="download-section">
+                <div class="qr-container">
+                    <div class="qr-title">
+                        <i class="fas fa-qrcode"></i>
+                        Scan to Download
+                    </div>
+                    <div class="qr-code" id="qrCode"></div>
+                    <div class="qr-instructions">
+                        Open your Android camera app and point it at the QR code to download the app directly to your device.
+                    </div>
+                </div>
+                
+                <div class="qr-container">
+                    <div class="qr-title">
+                        <i class="fas fa-wifi"></i>
+                        Connect to Web Viewer
+                    </div>
+                    <div class="qr-code" id="qrCodeWeb"></div>
+                    <div class="qr-instructions">
+                        Scan this QR code to open the web viewer interface on your device.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="download-options">
+                <a href="EdgeDetectorApp.apk" class="download-btn" download="EdgeDetectorApp.apk">
+                    <i class="fas fa-download"></i>
+                    Direct Download APK
+                </a>
+                
+                <a href="manual.html" class="download-btn secondary">
+                    <i class="fas fa-book"></i>
+                    Manual Installation Guide
+                </a>
+            </div>
+            
+            <div class="features">
+                <h3><i class="fas fa-star"></i> App Features</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-camera feature-icon"></i>
+                        <span>Real-time Camera Processing</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-eye feature-icon"></i>
+                        <span>Advanced Edge Detection</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-wifi feature-icon"></i>
+                        <span>WebSocket Streaming</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cogs feature-icon"></i>
+                        <span>OpenCV Processing</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-mobile-alt feature-icon"></i>
+                        <span>Native Android Performance</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-chart-line feature-icon"></i>
+                        <span>Live Performance Metrics</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h3><i class="fas fa-info-circle"></i> Quick Setup Guide</h3>
+                <ol>
+                    <li>Download and install the EdgeDetector app on your Android device</li>
+                    <li>Enable "Install from Unknown Sources" in your Android settings if prompted</li>
+                    <li>Open the app and grant camera permissions when requested</li>
+                    <li>Start the WebSocket server by tapping "Start Server"</li>
+                    <li>Connect to the web viewer using your device's IP address</li>
+                    <li>Enjoy real-time edge detection processing!</li>
+                </ol>
+            </div>
+            
+            <div class="url-display">
+                <strong>Download URL:</strong><br>
+                <span id="downloadUrl">Loading...</span>
+            </div>
+            
+            <div class="url-display">
+                <strong>Web Viewer URL:</strong><br>
+                <span id="webViewerUrl">Loading...</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Get current host and port
+        const currentHost = window.location.hostname;
+        const currentPort = window.location.port || '80';
+        const downloadUrl = `http://${currentHost}:${currentPort}/EdgeDetectorApp.apk`;
+        const webViewerUrl = `http://${currentHost}:${currentPort}/`;
+        
+        // Display URLs
+        document.getElementById('downloadUrl').textContent = downloadUrl;
+        document.getElementById('webViewerUrl').textContent = webViewerUrl;
+        
+        // Generate QR codes
+        QRCode.toCanvas(document.createElement('canvas'), downloadUrl, {
+            width: 200,
+            margin: 2,
+            color: {
+                dark: '#667eea',
+                light: '#ffffff'
+            }
+        }, function (error, canvas) {
+            if (error) console.error(error);
+            document.getElementById('qrCode').appendChild(canvas);
+        });
+        
+        QRCode.toCanvas(document.createElement('canvas'), webViewerUrl, {
+            width: 200,
+            margin: 2,
+            color: {
+                dark: '#764ba2',
+                light: '#ffffff'
+            }
+        }, function (error, canvas) {
+            if (error) console.error(error);
+            document.getElementById('qrCodeWeb').appendChild(canvas);
+        });
+    </script>
+</body>
+</html>

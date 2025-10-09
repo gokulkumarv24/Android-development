@@ -10,12 +10,12 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class EdgeDetectorWebSocket extends WebSocketServer {
-    private static final String TAG = "EdgeDetectorWebSocket";
+public class EdgeDetectorWebSocketServer extends WebSocketServer {
+    private static final String TAG = "WebSocketServer";
     private Set<WebSocket> connections;
     private static final int PORT = 8765;
 
-    public EdgeDetectorWebSocket() {
+    public EdgeDetectorWebSocketServer() {
         super(new InetSocketAddress(PORT));
         connections = Collections.synchronizedSet(new HashSet<>());
     }

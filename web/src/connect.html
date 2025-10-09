@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect EdgeDetector App - Network Setup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            color: white;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #e0e7ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .connection-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .qr-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            color: #333;
+            text-align: center;
+        }
+        
+        .qr-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .qr-code {
+            margin: 1.5rem 0;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .qr-code canvas {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .qr-instructions {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .ip-display {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+        }
+        
+        .ip-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+        
+        .ip-address {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6366f1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .copy-btn {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background: #5855eb;
+            transform: translateY(-1px);
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        
+        .status-online {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.4);
+            color: #22c55e;
+        }
+        
+        .status-offline {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #ef4444;
+        }
+        
+        .connection-steps {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .steps-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #e0e7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+        
+        .step-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+        
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tab-btn.active {
+            background: #6366f1;
+            border-color: #6366f1;
+        }
+        
+        .tab-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .steps {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+        
+        .steps li {
+            counter-increment: step-counter;
+            margin-bottom: 2rem;
+            padding-left: 4rem;
+            position: relative;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 2rem 2rem 2rem 5rem;
+            border-radius: 15px;
+            border-left: 3px solid #6366f1;
+        }
+        
+        .steps li:before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 1.5rem;
+            top: 2rem;
+            background: #6366f1;
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .step-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #e0e7ff;
+        }
+        
+        .step-description {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .step-code {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #e0e7ff;
+            margin: 0.5rem 0;
+        }
+        
+        .warning {
+            background: rgba(255, 152, 0, 0.1);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .warning-icon {
+            color: #ff9800;
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+        }
+        
+        .tip {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .tip-icon {
+            color: #22c55e;
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+        }
+        
+        .network-diagram {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .diagram-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: #e0e7ff;
+        }
+        
+        .device-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .device {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            min-width: 150px;
+        }
+        
+        .device-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #6366f1;
+        }
+        
+        .device-name {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        
+        .device-ip {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .connection-arrow {
+            color: #6366f1;
+            font-size: 1.5rem;
+        }
+        
+        .troubleshooting {
+            background: rgba(239, 68, 68, 0.05);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .troubleshooting h3 {
+            color: #fca5a5;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .connection-section {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .glass-panel {
+                padding: 2rem;
+            }
+            
+            .back-btn {
+                position: static;
+                margin-bottom: 2rem;
+                align-self: flex-start;
+            }
+            
+            .step-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .device-flow {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .connection-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+        Back to Viewer
+    </a>
+    
+    <div class="container">
+        <div class="glass-panel">
+            <div class="header">
+                <h1><i class="fas fa-network-wired"></i> Connect to EdgeDetector App</h1>
+                <p>Connect your Android app to the web viewer with QR codes or manual setup</p>
+            </div>
+            
+            <div class="connection-section">
+                <div class="qr-container">
+                    <div class="qr-title">
+                        <i class="fas fa-qrcode"></i>
+                        Quick Connect QR Code
+                    </div>
+                    <div class="qr-code" id="qrCodeConnect"></div>
+                    <div class="qr-instructions">
+                        Scan this QR code with the EdgeDetector app to automatically connect to this web viewer.
+                    </div>
+                    <div class="status-indicator status-online" id="serverStatus">
+                        <i class="fas fa-check-circle"></i>
+                        Web Server Online
+                    </div>
+                </div>
+                
+                <div class="qr-container">
+                    <div class="qr-title">
+                        <i class="fas fa-wifi"></i>
+                        Manual Connection Info
+                    </div>
+                    <div class="ip-display">
+                        <div class="ip-label">Web Viewer Address</div>
+                        <div class="ip-address" id="webViewerAddress">Loading...</div>
+                        <button class="copy-btn" onclick="copyToClipboard('webViewerAddress')">
+                            <i class="fas fa-copy"></i>
+                            Copy
+                        </button>
+                    </div>
+                    <div class="ip-display">
+                        <div class="ip-label">Expected App Server</div>
+                        <div class="ip-address" id="appServerAddress">Loading...</div>
+                        <button class="copy-btn" onclick="copyToClipboard('appServerAddress')">
+                            <i class="fas fa-copy"></i>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="network-diagram">
+                <div class="diagram-title">
+                    <i class="fas fa-sitemap"></i>
+                    Network Connection Overview
+                </div>
+                <div class="device-flow">
+                    <div class="device">
+                        <div class="device-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="device-name">Android App</div>
+                        <div class="device-ip" id="androidIP">192.168.1.100:8765</div>
+                    </div>
+                    <div class="connection-arrow">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="device">
+                        <div class="device-icon">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <div class="device-name">Wi-Fi Network</div>
+                        <div class="device-ip">Same Network Required</div>
+                    </div>
+                    <div class="connection-arrow">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="device">
+                        <div class="device-icon">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <div class="device-name">Web Viewer</div>
+                        <div class="device-ip" id="webIP">192.168.1.50:8081</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="connection-steps">
+                <div class="steps-title">
+                    <i class="fas fa-list-ol"></i>
+                    Connection Setup Guide
+                </div>
+                
+                <div class="step-tabs">
+                    <button class="tab-btn active" onclick="showTab('android-setup')">
+                        <i class="fas fa-mobile-alt"></i>
+                        Android Setup
+                    </button>
+                    <button class="tab-btn" onclick="showTab('web-setup')">
+                        <i class="fas fa-desktop"></i>
+                        Web Setup
+                    </button>
+                    <button class="tab-btn" onclick="showTab('connection')">
+                        <i class="fas fa-link"></i>
+                        Connect
+                    </button>
+                </div>
+                
+                <div id="android-setup" class="tab-content active">
+                    <ol class="steps">
+                        <li>
+                            <div class="step-title">Install EdgeDetector App</div>
+                            <div class="step-description">
+                                Download and install the EdgeDetector app on your Android device. Make sure you have granted camera permissions.
+                                <div class="tip">
+                                    <i class="fas fa-lightbulb tip-icon"></i>
+                                    <div>
+                                        <strong>Need the app?</strong> Visit the <a href="download.html" style="color: #6366f1;">download page</a> to get the APK file and installation instructions.
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="step-title">Connect to Wi-Fi</div>
+                            <div class="step-description">
+                                Ensure your Android device is connected to the same Wi-Fi network as the computer running this web viewer.
+                                <div class="step-code">Current Network: <span id="currentNetwork">Detecting...</span></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="step-title">Start WebSocket Server</div>
+                            <div class="step-description">
+                                Open the EdgeDetector app and tap "Start WebSocket Server". The app will display its IP address and port.
+                                <div class="warning">
+                                    <i class="fas fa-exclamation-triangle warning-icon"></i>
+                                    <div>
+                                        <strong>Important:</strong> The server typically runs on port 8765. Make sure no firewall is blocking this port.
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="step-title">Note the IP Address</div>
+                            <div class="step-description">
+                                The app will show something like "WebSocket Server: 192.168.1.100:8765". Copy this address for manual connection or use the QR code for automatic setup.
+                                <div class="step-code">Example: ws://192.168.1.100:8765</div>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                
+                <div id="web-setup" class="tab-content">
+                    <ol class="steps">
+                        <li>
+                            <div class="step-title">Web Server Status</div>
+                            <div class="step-description">
+                                This web viewer is currently running and accessible at the address shown above. Make sure your device can access this URL.
+                                <div class="step-code" id="webServerStatus">Status: Online ✓</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="step-title">Test Web Access</div>
+                            <div class="step-description">
+                                Try opening this web viewer on another device (like your phone's browser) to ensure network connectivity is working properly.
+                                <div class="tip">
+                                    <i class="fas fa-lightbulb tip-icon"></i>
+                                    <div>
+                                        <strong>Pro Tip:</strong> You can bookmark this page on your phone for easy access to connection tools.
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="step-title">Configure Firewall</div>
+                            <div class="step-description">
+                                If connection fails, ensure your firewall allows incoming connections on port 8081 (web viewer) and port 8765 (Android app).
+                                <div class="step-code">
+                                    Windows: Windows Defender Firewall → Allow an app<br>
+                                    Allow: http-server, EdgeDetector App
+                                </div>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                
+                <div id="connection" class="tab-content">
+                    <ol class="steps">
+                        <li>
+                            <div class="step-title">Automatic Connection (Recommended)</div>
+                            <div class="step-description">
+                                Use the QR code above for the easiest connection. The EdgeDetector app can scan this QR code to automatically configure the connection to this web viewer.
+                            </div>
+                        </li>
+                        <li>
+                            <div class="step-title">Manual Connection</div>
+                            <div class="step-description">
+                                If QR code doesn't work, manually enter the Android app's WebSocket address in the connection settings on the main viewer page.
+                                <div class="step-code">
+                                    1. Go to main viewer page<br>
+                                    2. Click "Manual Connection"<br>
+                                    3. Enter: ws://[ANDROID_IP]:8765
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="step-title">Verify Connection</div>
+                            <div class="step-description">
+                                Once connected, you should see live video feed from the Android app's camera with edge detection processing applied in real-time.
+                                <div class="tip">
+                                    <i class="fas fa-lightbulb tip-icon"></i>
+                                    <div>
+                                        <strong>Success Indicators:</strong> Green connection status, live FPS counter, and real-time video frames.
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="step-title">Monitor Performance</div>
+                            <div class="step-description">
+                                The web viewer displays live statistics including FPS, processing time, and connection quality. Use these metrics to optimize performance.
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="troubleshooting">
+                <h3><i class="fas fa-exclamation-triangle"></i> Common Connection Issues</h3>
+                <ul>
+                    <li><strong>Can't see the Android app:</strong> Make sure both devices are on the same Wi-Fi network</li>
+                    <li><strong>Connection refused:</strong> Check if Windows Firewall is blocking the ports (8081, 8765)</li>
+                    <li><strong>QR code not working:</strong> Try manual connection with the IP address shown in the app</li>
+                    <li><strong>No video feed:</strong> Ensure camera permissions are granted to the Android app</li>
+                    <li><strong>Poor performance:</strong> Close other apps on Android device to free up resources</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Get current host and port information
+        const currentHost = window.location.hostname;
+        const currentPort = window.location.port || '80';
+        const webViewerUrl = `http://${currentHost}:${currentPort}/`;
+        const expectedAppServer = `ws://${currentHost}:8765`;
+        
+        // Display connection information
+        document.getElementById('webViewerAddress').textContent = webViewerUrl;
+        document.getElementById('appServerAddress').textContent = expectedAppServer;
+        document.getElementById('webIP').textContent = `${currentHost}:${currentPort}`;
+        document.getElementById('androidIP').textContent = `${currentHost}:8765`;
+        
+        // Generate QR code for connection
+        const connectionData = JSON.stringify({
+            type: 'edgedetector_connection',
+            webViewer: webViewerUrl,
+            expectedServer: expectedAppServer,
+            timestamp: Date.now()
+        });
+        
+        QRCode.toCanvas(document.createElement('canvas'), connectionData, {
+            width: 200,
+            margin: 2,
+            color: {
+                dark: '#667eea',
+                light: '#ffffff'
+            }
+        }, function (error, canvas) {
+            if (error) console.error(error);
+            document.getElementById('qrCodeConnect').appendChild(canvas);
+        });
+        
+        // Tab switching functionality
+        function showTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.closest('.tab-btn').classList.add('active');
+        }
+        
+        // Copy to clipboard functionality
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            navigator.clipboard.writeText(text).then(function() {
+                // Show feedback
+                const button = event.target.closest('.copy-btn');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                button.style.background = '#22c55e';
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.background = '#6366f1';
+                }, 2000);
+            });
+        }
+        
+        // Check server status
+        function checkServerStatus() {
+            fetch(window.location.origin)
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById('webServerStatus').innerHTML = 'Status: Online ✓';
+                        document.getElementById('serverStatus').className = 'status-indicator status-online';
+                        document.getElementById('serverStatus').innerHTML = '<i class="fas fa-check-circle"></i> Web Server Online';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('webServerStatus').innerHTML = 'Status: Error ✗';
+                    document.getElementById('serverStatus').className = 'status-indicator status-offline';
+                    document.getElementById('serverStatus').innerHTML = '<i class="fas fa-times-circle"></i> Connection Issue';
+                });
+        }
+        
+        // Detect network information (simplified)
+        function detectNetwork() {
+            // This is a simplified network detection
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            if (connection) {
+                document.getElementById('currentNetwork').textContent = connection.effectiveType || 'Connected';
+            } else {
+                document.getElementById('currentNetwork').textContent = 'Connected via Wi-Fi';
+            }
+        }
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            checkServerStatus();
+            detectNetwork();
+            
+            // Refresh status every 30 seconds
+            setInterval(checkServerStatus, 30000);
+        });
+    </script>
+</body>
+</html>

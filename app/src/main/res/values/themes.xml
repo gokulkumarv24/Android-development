@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme - Modern Edge Detector -->
+    <style name="Theme.EdgeDetector" parent="Theme.MaterialComponents.DayNight">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorPrimaryVariant">@color/primary_variant</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/accent_color</item>
+        <item name="colorSecondaryVariant">@color/secondary_color</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Background colors -->
+        <item name="android:colorBackground">@color/background_primary</item>
+        <item name="colorSurface">@color/card_background</item>
+        <item name="colorOnSurface">@color/primary_text</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/glass_black_50</item>
+        <item name="android:navigationBarColor">@color/glass_black_30</item>
+        <!-- Window properties -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+    
+    <!-- Fullscreen theme for camera activity -->
+    <style name="Theme.EdgeDetector.Fullscreen" parent="Theme.EdgeDetector">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+    
+    <!-- Card style with elevation -->
+    <style name="EdgeDetector.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">8dp</item>
+        <item name="cardBackgroundColor">@color/card_background</item>
+    </style>
+    
+    <!-- Button styles -->
+    <style name="EdgeDetector.Button.Primary" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/button_primary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="cornerRadius">28dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    
+    <style name="EdgeDetector.Button.Secondary" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/button_primary</item>
+        <item name="android:textColor">@color/button_primary</item>
+        <item name="cornerRadius">28dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    
+    <!-- Text styles -->
+    <style name="EdgeDetector.Text.Headline" parent="@style/TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+    </style>
+    
+    <style name="EdgeDetector.Text.Body" parent="@style/TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    
+    <style name="EdgeDetector.Text.Monospace" parent="@style/TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:fontFamily">monospace</item>
+    </style>
+</resources>
