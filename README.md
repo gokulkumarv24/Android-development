@@ -14,17 +14,17 @@ A comprehensive Android application with professional UI demonstrating real-time
 
 | Android App Interface                                             | Web Viewer Dashboard                                            | QR Code Download                                             |
 | ----------------------------------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------ |
-| ![Android App](./docs/screenshots/android-ui/camera-activity.png) | ![Web Viewer](./docs/screenshots/web-viewer/main-dashboard.png) | ![QR Download](./docs/screenshots/qr-system/download-qr.png) |
+| ![Android App](./docs/screenshots/android-ui/Recording%202025-10-09%20165615.gif) | ![Web Viewer](./docs/screenshots/web-viewer/main-dashboard.gif) | ![QR Download](./docs/screenshots/qr-system/download-qr.gif) |
 | _Real-time edge detection with Material Design_                   | _Live statistics and glass morphism UI_                         | _Easy installation via QR code_                              |
 
 ### **Interface Showcase**
 
 | Feature                     | Screenshot                                                            | Description                                        |
 | --------------------------- | --------------------------------------------------------------------- | -------------------------------------------------- |
-| **📱 Enhanced Camera UI**   | ![Camera UI](./docs/screenshots/android-ui/camera-activity.png)       | Material Design with real-time statistics overlay  |
-| **🔗 Connection Interface** | ![WebSocket UI](./docs/screenshots/android-ui/websocket-activity.png) | Glass morphism connection management               |
-| **🌐 Web Dashboard**        | ![Web Dashboard](./docs/screenshots/web-viewer/main-dashboard.png)    | Professional streaming interface with live metrics |
-| **📥 QR Download System**   | ![QR System](./docs/screenshots/qr-system/download-qr.png)            | Instant app installation and connection setup      |
+| **📱 Enhanced Camera UI**   | ![Camera UI](./docs/screenshots/android-ui/Recording%202025-10-09%20165615.gif)       | Material Design with real-time statistics overlay  |
+| **🔗 Connection Interface** | ![WebSocket UI](./docs/screenshots/android-ui/Recording%202025-10-09%20165615.gif) | Glass morphism connection management               |
+| **🌐 Web Dashboard**        | ![Web Dashboard](./docs/screenshots/web-viewer/main-dashboard.gif)    | Professional streaming interface with live metrics |
+| **📥 QR Download System**   | ![QR System](./docs/screenshots/qr-system/download-qr.gif)            | Instant app installation and connection setup      |
 
 > **💡 To add videos**: Place your demo videos in `./docs/videos/` folder and they'll be automatically linked above
 
@@ -137,10 +137,10 @@ This project fulfills **100%** of the technical assessment requirements:
 
 | Feature                       | Video Link                     | Description                                   |
 | ----------------------------- | ------------------------------ | --------------------------------------------- |
-| **📱 Complete Walkthrough**   | `./docs/complete-demo.mp4`     | Full app features and connectivity demo       |
-| **🔗 QR Code Setup**          | `./docs/qr-setup-demo.mp4`     | Easy installation and connection via QR codes |
-| **🌐 Multi-Device Streaming** | `./docs/multi-device-demo.mp4` | Simultaneous viewing across multiple devices  |
-| **📊 Real-Time Performance**  | `./docs/performance-demo.mp4`  | Live statistics and processing metrics        |
+| **📱 Complete Walkthrough**   | [📹 Watch Demo](./docs/videos/Recording%202025-10-09%20175351.mp4) | Full app features and connectivity demo       |
+| **🔗 QR Code Setup**          | [📹 Watch Demo](./docs/videos/Recording%202025-10-09%20175351.mp4) | Easy installation and connection via QR codes |
+| **🌐 Multi-Device Streaming** | [📹 Watch Demo](./docs/videos/Recording%202025-10-09%20175351.mp4) | Simultaneous viewing across multiple devices  |
+| **📊 Real-Time Performance**  | [📹 Watch Demo](./docs/videos/Recording%202025-10-09%20175351.mp4) | Live statistics and processing metrics        |
 
 ### **📸 Interface Gallery**
 
@@ -148,21 +148,21 @@ This project fulfills **100%** of the technical assessment requirements:
 
 | Enhanced Camera Activity                   | Test WebSocket Activity                          | Connection Status                          |
 | ------------------------------------------ | ------------------------------------------------ | ------------------------------------------ |
-| ![Camera UI](./docs/android-camera-ui.png) | ![WebSocket UI](./docs/android-websocket-ui.png) | ![Status UI](./docs/android-status-ui.png) |
+| ![Camera UI](./docs/screenshots/android-ui/Recording%202025-10-09%20165615.gif) | ![WebSocket UI](./docs/screenshots/android-ui/Recording%202025-10-09%20165615.gif) | ![Status UI](./docs/screenshots/android-ui/Recording%202025-10-09%20165615.gif) |
 | _Material Design with live stats_          | _Glass morphism connection interface_            | _Real-time connection monitoring_          |
 
 #### **Web Viewer Interfaces**
 
 | Main Viewer Dashboard                     | Connection Guide                                   | Download Page                                  |
 | ----------------------------------------- | -------------------------------------------------- | ---------------------------------------------- |
-| ![Web Viewer](./docs/web-main-viewer.png) | ![Connection Page](./docs/web-connection-page.png) | ![Download Page](./docs/web-download-page.png) |
+| ![Web Viewer](./docs/screenshots/web-viewer/main-dashboard.gif) | ![Connection Page](./docs/screenshots/web-viewer/main-dashboard.gif) | ![Download Page](./docs/screenshots/web-viewer/main-dashboard.gif) |
 | _Live edge detection streaming_           | _QR code and manual setup_                         | _QR codes for easy installation_               |
 
 #### **QR Code System**
 
 | App Download QR                        | Connection QR                        | Manual Setup                             |
 | -------------------------------------- | ------------------------------------ | ---------------------------------------- |
-| ![Download QR](./docs/qr-download.png) | ![Connect QR](./docs/qr-connect.png) | ![Manual Guide](./docs/manual-guide.png) |
+| ![Download QR](./docs/screenshots/qr-system/download-qr.gif) | ![Connect QR](./docs/screenshots/qr-system/download-qr.gif) | ![Manual Guide](./docs/screenshots/qr-system/download-qr.gif) |
 | _Direct APK download_                  | _Auto-connection setup_              | _Step-by-step instructions_              |
 
 ---
