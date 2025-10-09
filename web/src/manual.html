@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Installation Guide - EdgeDetector App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            color: white;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #e0e7ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #e0e7ff;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .section h3 {
+            font-size: 1.3rem;
+            margin: 1.5rem 0 1rem 0;
+            color: #c7d2fe;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .steps {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+        
+        .steps li {
+            counter-increment: step-counter;
+            margin-bottom: 1.5rem;
+            padding-left: 3.5rem;
+            position: relative;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1.5rem 1.5rem 1.5rem 4rem;
+            border-radius: 10px;
+            border-left: 3px solid #6366f1;
+        }
+        
+        .steps li:before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 1rem;
+            top: 1.5rem;
+            background: #6366f1;
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .warning {
+            background: rgba(255, 152, 0, 0.1);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .warning-icon {
+            color: #ff9800;
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+        }
+        
+        .tip {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .tip-icon {
+            color: #22c55e;
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+        }
+        
+        .code {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #e0e7ff;
+            margin: 0.5rem 0;
+            overflow-x: auto;
+        }
+        
+        .download-section {
+            text-align: center;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .download-btn {
+            background: linear-gradient(45deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            text-decoration: none;
+            margin: 0.5rem;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+        
+        .troubleshooting {
+            background: rgba(239, 68, 68, 0.05);
+            border-left: 4px solid #ef4444;
+        }
+        
+        .troubleshooting h3 {
+            color: #fca5a5;
+        }
+        
+        .accordion {
+            margin: 1rem 0;
+        }
+        
+        .accordion-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .accordion-header {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: between;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .accordion-header:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .accordion-content {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            display: none;
+        }
+        
+        .accordion-content.active {
+            display: block;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6366f1;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .glass-panel {
+                padding: 2rem;
+            }
+            
+            .back-btn {
+                position: static;
+                margin-bottom: 2rem;
+                align-self: flex-start;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .steps li {
+                padding-left: 3rem;
+            }
+            
+            .steps li:before {
+                left: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="download.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+        Back to Download
+    </a>
+    
+    <div class="container">
+        <div class="glass-panel">
+            <div class="header">
+                <h1><i class="fas fa-book-open"></i> Installation Guide</h1>
+                <p>Complete step-by-step instructions for EdgeDetector App</p>
+            </div>
+            
+            <div class="download-section">
+                <h3><i class="fas fa-download"></i> Download EdgeDetector App</h3>
+                <p>Get the latest version of the EdgeDetector app for Android</p>
+                <a href="EdgeDetectorApp.apk" class="download-btn" download="EdgeDetectorApp.apk">
+                    <i class="fas fa-android"></i>
+                    Download APK (Latest Version)
+                </a>
+                <a href="download.html" class="download-btn" style="background: rgba(255,255,255,0.1);">
+                    <i class="fas fa-qrcode"></i>
+                    Get QR Code
+                </a>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">~15MB</span>
+                    <div class="stat-label">App Size</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">Android 7+</span>
+                    <div class="stat-label">Minimum Version</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">Real-time</span>
+                    <div class="stat-label">Processing Speed</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">OpenCV 4.8</span>
+                    <div class="stat-label">Computer Vision</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-mobile-alt"></i> Android Installation</h2>
+                <ol class="steps">
+                    <li>
+                        <strong>Download the APK</strong><br>
+                        Click the download button above or scan the QR code to download EdgeDetectorApp.apk to your Android device.
+                    </li>
+                    <li>
+                        <strong>Enable Unknown Sources</strong><br>
+                        Go to Settings → Security → Unknown Sources and enable installation from unknown sources.
+                        <div class="warning">
+                            <i class="fas fa-exclamation-triangle warning-icon"></i>
+                            <div>
+                                <strong>Security Note:</strong> Only enable this temporarily for installing the app. 
+                                You can disable it again after installation for security.
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <strong>Install the App</strong><br>
+                        Open your file manager, navigate to Downloads, and tap on EdgeDetectorApp.apk to install.
+                    </li>
+                    <li>
+                        <strong>Grant Permissions</strong><br>
+                        When you first open the app, grant camera permissions and any other requested permissions.
+                        <div class="tip">
+                            <i class="fas fa-lightbulb tip-icon"></i>
+                            <div>
+                                <strong>Tip:</strong> The app needs camera access to perform edge detection on live video feed.
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <strong>Start the Server</strong><br>
+                        Open the app and tap "Start WebSocket Server" to begin streaming processed video.
+                    </li>
+                </ol>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-wifi"></i> Network Setup</h2>
+                <h3><i class="fas fa-network-wired"></i> Connecting to Web Viewer</h3>
+                <ol class="steps">
+                    <li>
+                        <strong>Ensure Same Network</strong><br>
+                        Make sure your Android device and computer are connected to the same Wi-Fi network.
+                    </li>
+                    <li>
+                        <strong>Find Device IP</strong><br>
+                        In the app, the device IP address will be displayed once the server starts. It will look like:
+                        <div class="code">192.168.1.100:8765</div>
+                    </li>
+                    <li>
+                        <strong>Access Web Viewer</strong><br>
+                        Open your web browser and navigate to this IP address to view the processed video stream.
+                    </li>
+                </ol>
+                
+                <div class="tip">
+                    <i class="fas fa-lightbulb tip-icon"></i>
+                    <div>
+                        <strong>Quick Access:</strong> The web viewer is also available at the same address but on port 8082 
+                        (e.g., http://192.168.1.100:8082) for direct browser access.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-play-circle"></i> Using the App</h2>
+                <ol class="steps">
+                    <li>
+                        <strong>Camera Setup</strong><br>
+                        Point your device camera at objects with clear edges for best edge detection results.
+                    </li>
+                    <li>
+                        <strong>Real-time Processing</strong><br>
+                        The app processes video in real-time using OpenCV edge detection algorithms.
+                    </li>
+                    <li>
+                        <strong>View Results</strong><br>
+                        Open the web viewer on any device connected to the same network to see the processed video stream.
+                    </li>
+                    <li>
+                        <strong>Performance Monitoring</strong><br>
+                        The web interface shows live statistics including FPS, processing time, and connection quality.
+                    </li>
+                </ol>
+            </div>
+            
+            <div class="section troubleshooting">
+                <h2><i class="fas fa-wrench"></i> Troubleshooting</h2>
+                
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span><i class="fas fa-question-circle"></i> App won't install</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <ul>
+                                <li>Ensure "Unknown Sources" is enabled in Security settings</li>
+                                <li>Check if you have enough storage space (at least 50MB free)</li>
+                                <li>Try downloading the APK again if the file is corrupted</li>
+                                <li>Restart your device and try again</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span><i class="fas fa-camera"></i> Camera not working</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <ul>
+                                <li>Go to Settings → Apps → EdgeDetector → Permissions</li>
+                                <li>Enable Camera permission</li>
+                                <li>Close other apps that might be using the camera</li>
+                                <li>Restart the app</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span><i class="fas fa-wifi"></i> Can't connect to web viewer</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <ul>
+                                <li>Ensure both devices are on the same Wi-Fi network</li>
+                                <li>Check if firewall is blocking the connection</li>
+                                <li>Try using the device's IP address directly</li>
+                                <li>Restart the WebSocket server in the app</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span><i class="fas fa-exclamation-triangle"></i> App crashes or freezes</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <ul>
+                                <li>Ensure your device has at least 2GB RAM available</li>
+                                <li>Close background apps to free up memory</li>
+                                <li>Check if your Android version is 7.0 or higher</li>
+                                <li>Clear app cache: Settings → Apps → EdgeDetector → Storage → Clear Cache</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-info-circle"></i> Technical Specifications</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number">Camera2 API</span>
+                        <div class="stat-label">Camera Interface</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">OpenCV 4.8.0</span>
+                        <div class="stat-label">Computer Vision</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">WebSocket</span>
+                        <div class="stat-label">Real-time Streaming</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">OpenGL ES</span>
+                        <div class="stat-label">GPU Acceleration</div>
+                    </div>
+                </div>
+                
+                <h3><i class="fas fa-cog"></i> System Requirements</h3>
+                <ul>
+                    <li><strong>Android Version:</strong> 7.0 (API level 24) or higher</li>
+                    <li><strong>RAM:</strong> Minimum 2GB, Recommended 4GB+</li>
+                    <li><strong>Storage:</strong> 50MB free space</li>
+                    <li><strong>Camera:</strong> Back-facing camera required</li>
+                    <li><strong>Network:</strong> Wi-Fi connection for web viewer access</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.fa-chevron-down');
+            
+            content.classList.toggle('active');
+            
+            if (content.classList.contains('active')) {
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+    </script>
+</body>
+</html>
